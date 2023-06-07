@@ -1,0 +1,21 @@
+{
+  "name": "cda-migration-seeding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "migrate": "npx knex migrate:latest",
+    "migrate:down": "npx knex migrate:down",
+    "migrate:rollback": "npx knex migrate:rollback",
+    "seed": "npx knex seed:run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "knex": "^2.4.2",
+    "mysql2": "^3.3.3"
+  }
+}
