@@ -1,4 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const index = (_req, res) => {
   knex('user')
@@ -114,11 +116,51 @@ const remove = (req, res) => {
     });
 };
 
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      message: "Login requires email and password"
+    })
+  }
+
+  // if match => send the token (jwt.sign ({ id }))
+  knex("user")
+    .where({ email: email })
+    .then((users) => {
+      if (users.length === 0) {
+        return res
+          .status(401)
+          .json({
+            message: "Invalid credentials"
+          })
+      }
+
+      const user = users[0];
+      if (user.password !== password) {
+        return res
+          .status(401)
+          .json({
+            message: "Invalid credentials"
+          })
+      }
+
+      const token = jwt.sign(
+        { userId: user.id }, 
+        process.env.SECRET_KEY
+      );
+
+      res.json({ token });
+    })
+}
+
 module.exports = {
   index,
   findOne,
   posts,
   add,
   update,
-  remove
+  remove,
+  login
 }

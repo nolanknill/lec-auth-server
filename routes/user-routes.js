@@ -7,6 +7,10 @@ router
     .post(validateUser, userController.add);
 
 router
+    .route('/login')
+    .post(userController.login);
+
+router
     .route('/:id')
     .get(userController.findOne)
     .patch(validateUser, userController.update);

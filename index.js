@@ -7,9 +7,10 @@ const PORT = process.env.PORT || 5050;
 app.use(express.json());
 
 const userRoutes = require('./routes/user-routes');
+const postRoutes = require('./routes/post-routes');
 
-// all users routes
 app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
 
 app.listen(PORT, () => {
   console.log(`running at http://localhost:${PORT}`);
