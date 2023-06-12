@@ -4,14 +4,12 @@ const { validateUser } = require("../middleware/user-validator");
 
 router
     .route('/')
-    .get(userController.index)
     .post(validateUser, userController.add);
 
 router
     .route('/:id')
     .get(userController.findOne)
-    .patch(validateUser, userController.update)
-    .delete(userController.remove);
+    .patch(validateUser, userController.update);
 
 router
     .route("/:id/posts")

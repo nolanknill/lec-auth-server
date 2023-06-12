@@ -47,10 +47,13 @@ const posts = (req, res) => {
 }
 
 const add = (req, res) => {
+  const { name, email, password } = req.body
+  
   knex("user")
     .insert({
-      name: req.body.name,
-      email: req.body.email
+      name,
+      email,
+      password
     })
     .then((result) => {
       return knex("user")
@@ -68,11 +71,14 @@ const add = (req, res) => {
 }
 
 const update = (req, res) => {
+  const { name, email, password } = req.body
+
   knex("user")
     .where({ id: req.params.id })
     .update({
-      name: req.body.name,
-      email: req.body.email
+      name,
+      email,
+      password
     })
     .then(() => {
       return knex("user").where({
