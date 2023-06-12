@@ -1,4 +1,7 @@
-module.exports = [
+const bcrypt = require('bcrypt');
+require('dotenv').config();
+
+const users = [
     {
         id: 1,
         name: "Nester Brookfield",
@@ -30,3 +33,10 @@ module.exports = [
         password: "password"
     },
 ];
+
+module.exports = users.map((user) => {
+    return {
+        ...user,
+        password: bcrypt.hashSync(user.password, Number(process.env.SALT_ROUNDS))
+    }
+})

@@ -1,5 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const index = (_req, res) => {
@@ -138,7 +139,9 @@ const login = (req, res) => {
       }
 
       const user = users[0];
-      if (user.password !== password) {
+
+      const validPassword = bcrypt.compareSync(password, user.password)
+      if (!validPassword) {
         return res
           .status(401)
           .json({
@@ -148,7 +151,10 @@ const login = (req, res) => {
 
       const token = jwt.sign(
         { userId: user.id }, 
-        process.env.SECRET_KEY
+        process.env.SECRET_KEY,
+        {
+          expiresIn: 60 * 60 * 24
+        }
       );
 
       res.json({ token });
